@@ -1,5 +1,23 @@
 module Rif
   class Vocab
+    def self.default
+      v = new
+      v.instance_eval do
+        motion :n, :ne, :e, :se, :s, :sw, :w, :nw, :u, :d
+        synonym :n, :north
+        synonym :ne, :northeast
+        synonym :e, :east
+        synonym :se, :southeast
+        synonym :s, :south
+        synonym :sw, :southwest
+        synonym :w, :west
+        synonym :nw, :northwest
+        synonym :u, :up
+        synonym :d, :down
+      end
+      v
+    end
+    
     def initialize
       @type_map = {}
     end
@@ -32,9 +50,11 @@ module Rif
     
     # define any number of synonyms for a given word
     def synonym(existing_word, *synonyms)
+      existing_word = existing_word.to_s
       raise "'#{existing_word}' is not in the vocabulary" if type(existing_word).nil?
       reduced_form = reduce(existing_word)
       [synonyms].flatten.each do |syn|
+        syn = syn.to_s
         existing_definition = @type_map[syn]
         if existing_definition.nil?
           @type_map[syn] = reduced_form
