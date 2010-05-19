@@ -14,6 +14,15 @@ module Rif
         synonym :nw, :northwest
         synonym :u, :up
         synonym :d, :down
+        
+        verb :get
+        synonym :get, :take
+        
+        command :save
+        command :quit
+        command :inventory
+        synonym :inventory, :i
+        command :look
       end
       v
     end
@@ -73,7 +82,7 @@ module Rif
       type_of_word
     end
     
-    # resolve a possible synonym to it's root definition
+    # resolve a possible synonym to its root definition
     def reduce(word)
       definition = @type_map[word]
       case definition

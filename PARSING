@@ -1,0 +1,12 @@
+map words to types -
+	:adjective
+	:verb
+	:noun
+	:movement
+	:adverb
+	
+regular expression
+
+:verb (:adjective+) :noun
+
+rewrite "$verb ($adjective+) $noun $adverb:trailing_adverb", ":1 :trailing_adverb"
