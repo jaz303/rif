@@ -1,0 +1,3 @@
+vocab do |v|
+  
+end
