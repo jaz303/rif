@@ -20,6 +20,10 @@ module Rif
       end
     end
     
+    def rewrite(from, to)
+      # no-op
+    end
+    
     def rule(pattern, &block)
       game.rulebook.rule(pattern, &block)
     end

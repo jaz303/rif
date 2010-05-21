@@ -31,7 +31,7 @@ zone :castle do
     
     r[:door_closed] = true
     
-    r.rule "go n" do |c,m|
+    r.rule "n" do |c,m|
       if c.room[:door_closed]
         c.error "But the door is closed!"
         c.handled!

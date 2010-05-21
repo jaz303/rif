@@ -15,6 +15,8 @@ module Rif
           synonym :nw, :northwest
           synonym :u, :up
           synonym :d, :down
+          
+          speech :say, :shout, :whisper, :scream
         
           verb :get
           synonym :get, :take
@@ -38,7 +40,7 @@ module Rif
       # noun, adverb, adjective and verb are self-explanatory
       # motion = verb of motion, e.g. to move character between locations
       # command = in-game command, e.g. "look", "inventory"
-      %w(noun adverb adjective verb motion command).each do |type|
+      %w(noun adverb adjective verb motion speech command).each do |type|
         class_eval <<-CODE
           def #{type}(*words)
             add(:#{type}, *words)
