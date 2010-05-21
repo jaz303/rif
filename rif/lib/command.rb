@@ -7,6 +7,7 @@ module Rif
       @entity   = entity
       @sentence = sentence
       @handled  = false
+      @turn     = true
       @messages = []
     end
     
@@ -24,6 +25,15 @@ module Rif
     
     def handled!
       @handled = true
+    end
+    
+    # if false, this command does not constitute a "turn"
+    def turn?
+      @turn
+    end
+    
+    def no_turn!
+      @turn = false
     end
     
     def info(msg)

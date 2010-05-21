@@ -13,7 +13,7 @@ module Rif
     end
     
     def object?
-      false?
+      false
     end
   end
   

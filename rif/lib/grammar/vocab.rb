@@ -21,7 +21,12 @@ module Rif
         
           command :inventory
           synonym :inventory, :i
-          command :look, :l
+          
+          command :look
+          synonym :look, :l
+          
+          command :exits
+          command :turns
         end
         v
       end

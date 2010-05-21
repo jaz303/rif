@@ -1,6 +1,6 @@
 module Rif
   class Game
-    attr_reader :map, :vocab, :entities, :rulebook
+    attr_reader :map, :vocab, :entities, :rulebook, :turns
     
     attr_accessor :default_entity_class
     attr_accessor :starting_room
@@ -10,6 +10,7 @@ module Rif
       @vocab = Grammar::Vocab.default
       @entities = []
       @rulebook = Rulebook.new
+      @turns = 0
       
       @default_entity_class = Entity
       @starting_room = "home"
@@ -56,6 +57,10 @@ module Rif
       @entity.room
     end
     
+    def active_entity
+      @entity
+    end
+    
     def active_entity?(e)
       @entity == e
     end
@@ -63,16 +68,38 @@ module Rif
   private
   
     def tick
+      # deal with active entity first
+      # if their next command doesn't constitute a turn, we don't tick
+      # anyone else
+      unless tick_entity(active_entity)
+        return
+      end
+      
+      @turns += 1
+    
       @entities.each do |e|
-        if e.busy?
-          command = Command.new(self, e, e.dequeue)
-          e.room.rulebook.dispatch(command) if e.room
-          rulebook.dispatch(command)
-          if active_entity?(e)
-            @messages.concat(command.messages)
-          end
+        next if active_entity?(e)
+        turn_used = false
+        while !turn_used
+          turn_used = tick_entity(e)
         end
       end
     end
+    
+    def tick_entity(e)
+      if e.busy?
+        command = Command.new(self, e, e.dequeue)
+        e.room.rulebook.dispatch(command) if e.room
+        rulebook.dispatch(command)
+        if active_entity?(e)
+          command.error "Sorry I don't understand" unless command.handled?
+          @messages.concat(command.messages)
+        end
+        command.turn?
+      else
+        true
+      end
+    end
+    
   end
 end
