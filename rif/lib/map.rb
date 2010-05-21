@@ -87,6 +87,14 @@ module Rif
       @portals[Portal.normalize_direction(direction)]
     end
     
+    def exits
+      @portals.keys
+    end
+    
+    def exit_names
+      exits.map { |e| Portal::DIRECTION_NAMES[e] }.sort
+    end
+    
     def portals(ps, options = {})
       ps.each { |k,v| portal(k, v, options) }
     end
@@ -112,6 +120,19 @@ module Rif
     def self.normalize_direction(d)
       DIRECTIONS[d.to_sym]
     end
+    
+    DIRECTION_NAMES = {
+      :n            => 'north',
+      :ne           => 'northeast',
+      :e            => 'east',
+      :se           => 'southeast',
+      :s            => 'south',
+      :sw           => 'southwest',
+      :w            => 'west',
+      :nw           => 'northwest',
+      :u            => 'up',
+      :d            => 'down'
+    }
     
     DIRECTIONS = {
       :n            => :n,

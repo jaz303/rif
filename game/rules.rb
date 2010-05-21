@@ -12,6 +12,16 @@ rule "look" do |c, m|
   c.handled!
 end
 
+rule "exits" do |c, m|
+  exits = c.room.exit_names
+  if exits.empty?
+    c.error "There is no escape"
+  else
+    c.info "Possible exits: #{exits.join(', ')}"
+  end
+  c.handled!
+end
+
 rule "inventory" do |c, m|
   # dump inventory
   c.handled!
